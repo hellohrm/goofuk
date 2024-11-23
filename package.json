@@ -1,0 +1,14 @@
+{
+  "name": "firebase_bearer_token_bubble_nopduyet",
+  "version": "1.0.0",
+  "description": "create bearer token to send FCM, run on vercel server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "google-auth-library": "^9.15.0"
+  }
+}
