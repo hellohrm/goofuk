@@ -1,26 +1,29 @@
 
-const http = require('http');
+const express = require('express');
+// Next initialize the application
+const app = express();
 
-const server = http.createServer((req, res) => {
-    // Routing
-    if (req.url === '/') {
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end('Hello, world!');
-    } else if (req.url === '/about') {
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end('About page');
-    } else {
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('Page not found');
-    }
+// routing path
+app.get('/', (req, res) => {
+    res.send('Hello World!');
 });
+
+
+let routes = require('./api/routes'); //importing route
+//const { debug } = require('util');
+routes(app, {
+    testsend: function (data) {
+        debugger;
+        //io.emit('chat message', data);
+    }
+})
 
 
 
 
 const port = process.env.PORT ||3000;
-server.listen(port, () => {
-
-    console.log(`Server listening on port ${port}`);
-
+// Start the server
+app.listen(port, () => {
+    console.log('Server started on port 3000');
 });
+
