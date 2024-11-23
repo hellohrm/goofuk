@@ -1,6 +1,24 @@
 'use strict';
 module.exports = function (app, c$b) {
 
+    var autho2;
+
+    app.route('/tok').get( function(req, res){
+
+        if (!autho2) autho2 = require('./autho2.js');
+
+
+        const access_token = autho2.tokens(100).toString();
+
+        res.setHeader('Content-Type', "text/plain");
+
+        res.write(access_token);
+
+        res.end();
+
+    });
+
+
     app.route('/fcm').post(function (req, res) {
         console.log("post")
         res.setHeader('Content-Type', "text/plain");
