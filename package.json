@@ -10,5 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "google-auth-library": "^9.15.0"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
