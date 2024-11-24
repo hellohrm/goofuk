@@ -1,5 +1,5 @@
-
 const express = require('express');
+
 // Next initialize the application
 const app = express();
 //
