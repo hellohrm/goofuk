@@ -8,13 +8,13 @@ module.exports = function (app, c$b) {
         if (!autho2) autho2 = require('./autho2.js');
 
 
-        const access_token = autho2.tokens(100).then(function (access_token) {
+        const access_token = autho2.tokens(100).then(function (token) {
 
-            console.log(access_token);
+            console.log(token);
 
-            res.setHeader('Content-Type', "text/plain");
+            res.setHeader('Content-Type', 'application/json');
 
-            res.write(access_token);
+            res.write(JSON.stringify(token));
 
             res.end();
 
