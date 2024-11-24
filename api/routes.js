@@ -3,12 +3,12 @@ module.exports = function (app, c$b) {
 
     var autho2;
 
+
     app.route('/tok').get( function(req, res){
 
         if (!autho2) autho2 = require('./autho2.js');
 
-
-        const access_token = autho2.tokens(100).then(function (token) {
+        autho2.tokens().then(function (token) {
 
             console.log(token);
 
@@ -26,11 +26,26 @@ module.exports = function (app, c$b) {
     });
 
 
-    app.route('/fcm').post(function (req, res) {
+    app.route('/bubblefcm').post(function (req, res) {
+        //
         console.log("post")
-        res.setHeader('Content-Type', "text/plain");
-        res.write("OK");
+        //
+        if (!autho2) autho2 = require('./autho2.js');
+        //
+        //tha cho no tu post
+        autho2.tokens().then(function (token) {
+            //
+            autho2.postFCM(req, token.access_token);
+            //
+        });
+        //
+        //response luon,, vi mac ke ket qua. !!!!
+        res.setHeader('Content-Type', 'application/json');
+        //
+        res.write(JSON.stringify({ 'msg': 'Hello World!' }));
+        //
         res.end();
+        //
     }).get(function (req, res) {
         console.log("get")
 

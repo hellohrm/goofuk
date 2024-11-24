@@ -1,4 +1,5 @@
 'use strict';
+
 const { JWT } = require('google-auth-library');
 const fs = require('fs');
 
@@ -53,7 +54,7 @@ function minutesDiff(d1, d2,factor) {
 
 const _tok = {};
 
-const tokens = function (value) {
+const tokens = function () {
     //var x = 1;
     //var y = x + 1 + value;
 
@@ -119,10 +120,58 @@ const tokens = function (value) {
 
 
 
+const https = require('https');
+const postFCM = function (pReq, access_token) {
+    //
+    //const fuk = pReq.body;
+    //
+    // Example POST data (can be a JSON object or any data)
+    const postData = JSON.stringify(pReq.body);
+
+    // Options for the HTTP request
+    const options = {
+        hostname: 'fcm.googleapis.com',
+        //port: 80,
+        path: '/v1/projects/brick-d29e0/messages:send',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(postData),
+            Authorization: 'Bearer ' + access_token
+        }
+    };
+
+    // Create the HTTP request
+    const req = https.request(options, (res) => {
+
+        let responseData = '';
+
+        // A chunk of data has been received.
+        res.on('data', (chunk) => {
+            responseData += chunk;
+        });
+
+        // The whole response has been received.
+        res.on('end', () => {
+            console.log('Response:', responseData);
+        });
+    });
+    //
+    // Handle errors
+    req.on('error', (error) => {
+        console.error('Error:', error.message);
+    });
+    //
+    // Send the POST data
+    req.write(postData);
+    req.end();
+    //
+}
 
 // Export object which contains the above method
 module.exports = {
 
-    tokens: tokens
+    tokens: tokens,
+    postFCM: postFCM
 
 };
