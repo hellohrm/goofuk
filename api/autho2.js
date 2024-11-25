@@ -131,7 +131,7 @@ const postFCM = function (pReq, access_token) {
     // Options for the HTTP request
     const options = {
         hostname: 'fcm.googleapis.com',
-        //port: 80,
+        port: 443,
         path: '/v1/projects/brick-d29e0/messages:send',
         method: 'POST',
         headers: {
