@@ -37,14 +37,15 @@ module.exports = function (app, c$b) {
             //
             autho2.postFCM(req, token.access_token);
             //
+            //
+            //response luon,, vi mac ke ket qua. !!!!
+            res.setHeader('Content-Type', 'application/json');
+            //
+            res.write(JSON.stringify({ 'msg': 'Hello World!' }));
+            //
+            res.end();
+            //
         });
-        //
-        //response luon,, vi mac ke ket qua. !!!!
-        res.setHeader('Content-Type', 'application/json');
-        //
-        res.write(JSON.stringify({ 'msg': 'Hello World!' }));
-        //
-        res.end();
         //
     }).get(function (req, res) {
         console.log("get")
