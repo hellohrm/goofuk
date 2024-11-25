@@ -127,45 +127,52 @@ const postFCM = function (pReq, access_token) {
     //
     // Example POST data (can be a JSON object or any data)
     const postData = JSON.stringify(pReq.body);
+    //
+    return new Promise((resolve, reject) => {
+        // Options for the HTTP request
+        const options = {
+            hostname: 'fcm.googleapis.com',
+            port: 443,
+            path: '/v1/projects/brick-d29e0/messages:send',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(postData),
+                Authorization: 'Bearer ' + access_token
+            }
+        };
 
-    // Options for the HTTP request
-    const options = {
-        hostname: 'fcm.googleapis.com',
-        port: 443,
-        path: '/v1/projects/brick-d29e0/messages:send',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(postData),
-            Authorization: 'Bearer ' + access_token
-        }
-    };
+        // Create the HTTP request
+        const req = https.request(options, (res) => {
 
-    // Create the HTTP request
-    const req = https.request(options, (res) => {
+            let responseData = '';
 
-        let responseData = '';
+            // A chunk of data has been received.
+            res.on('data', (chunk) => {
+                responseData += chunk;
+            });
 
-        // A chunk of data has been received.
-        res.on('data', (chunk) => {
-            responseData += chunk;
+            // The whole response has been received.
+            res.on('end', () => {
+                //
+                console.log('Response:', responseData);
+                //
+                resolve({ 'rst': 'OK', 'msg': responseData });
+                //
+            });
         });
-
-        // The whole response has been received.
-        res.on('end', () => {
-            console.log('Response:', responseData);
+        //
+        // Handle errors
+        req.on('error', (error) => {
+            console.error('Error:', error.message);
+            reject({ 'rst': 'ERR', 'msg': error.message });
         });
+        //
+        // Send the POST data
+        req.write(postData);
+        req.end();
+        //
     });
-    //
-    // Handle errors
-    req.on('error', (error) => {
-        console.error('Error:', error.message);
-    });
-    //
-    // Send the POST data
-    req.write(postData);
-    req.end();
-    //
 }
 
 // Export object which contains the above method

@@ -35,16 +35,17 @@ module.exports = function (app, c$b) {
         //tha cho no tu post
         autho2.tokens().then(function (token) {
             //
-            autho2.postFCM(req, token.access_token);
-            //
-            //
-            //response luon,, vi mac ke ket qua. !!!!
-            res.setHeader('Content-Type', 'application/json');
-            //
-            res.write(JSON.stringify({ 'msg': 'Hello World!' }));
-            //
-            res.end();
-            //
+            autho2.postFCM(req, token.access_token).then(function (rst) {
+                //
+                //response luon,, vi mac ke ket qua. !!!!
+                res.setHeader('Content-Type', 'application/json');
+                //
+                //res.write(JSON.stringify({ 'msg': 'Hello World!' }));
+                res.write(JSON.stringify(rst));
+                //
+                res.end();
+                //
+            });
         });
         //
     }).get(function (req, res) {
